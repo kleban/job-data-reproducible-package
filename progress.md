@@ -1,0 +1,53 @@
+## Progress log
+
+- [x] Stage 0 — environment setup
+  - [x] requirements.txt generated
+  - [x] SETUP.md created
+  - [x] Structure Ganerator.ipynb — skipped (folder generation utility, not part of pipeline)
+  - [x] .env — placeholders applied
+- [ ] Stage 1 — load & assemble raw job vacancy data
+  - [x] stage_1_read_initial_data_fast.ipynb — markdown descriptions added, README updated
+  - [x] stage_1_0_1_adding_lost_data_2023-2025.ipynb — skipped
+  - [x] stage_1_0_2_adding_lost_data_2024_sep-dec.ipynb — skipped
+  - [x] stage_1_0_3_add_2021-22__daily_data.ipynb — skipped
+  - [x] stage_1_0_4_add_2021-22_monthly_data.ipynb — skipped
+  - [x] stage_01_5_interim_translate_skills.ipynb — descriptions added, already completed (no rerun needed)
+  - [x] data/stage_01_2/ — all 5 files copied (skills_en.csv, skills_ru.csv, translate_schema.json, batch files), README_data.md added
+  - [x] general.py — docstrings added → code/general.py
+  - [x] stage1.py — docstrings added → code/stage1.py
+  - [x] data/input/ua-2024-01-01.json — synthetic, 100 rows
+  - [ ] data/stage_01/ — pending
+  - [ ] data/stage_01_2/ — pending
+- [ ] Stage 2 — skills extraction
+  - [x] stage_2_1_skills_extration.ipynb — descriptions added
+  - [x] stage_2_2_add_romote_jobs.ipynb — descriptions added
+  - [x] stage2_v2.py — docstrings added → code/stage2.py
+  - [ ] data/stage_02/ — pending
+- [ ] Stage 3 — LLM-based job classification (Batch API)
+  - [ ] stage_3_1_classification_create_input_files.ipynb — commented
+  - [ ] stage_3_2_classification_check_jobs.ipynb — commented
+  - [ ] stage_3_3_classification_extract_results.ipynb — commented
+  - [ ] stage_3_4_split_missing_and_complete_cases.ipynb — commented
+  - [ ] stage_3_5_classification_missing_skills_create_input_files.ipynb — commented
+  - [ ] stage_3_6_classification_missing_check_jobs.ipynb — commented
+  - [ ] stage_3_7_classification_missed_extract_results.ipynb — commented
+  - [ ] stage3.py — docstrings added
+  - [ ] data/stage_03/ — pending
+- [ ] Stage 4 — ESCO skills mapping + region enrichment
+  - [ ] stage_4_esco_skills_extraction.ipynb — commented
+  - [ ] stage_4_5_region_enrichment.ipynb — commented
+  - [ ] stage4.py — docstrings added
+  - [ ] data/stage_04/ — pending
+  - [ ] data/stage_04_5/ — pending
+- [ ] Stage 5 — final aggregation (daily → monthly)
+  - [ ] stage_5_1_rejoin_daily_unique_files.ipynb — commented
+  - [ ] stage_5_2_to_monthly_unique.ipynb — commented
+  - [ ] stage_5_3_rejoin_full_files.ipynb — commented
+  - [ ] stage_5_4_to_monthly_full.ipynb — commented
+  - [ ] stage5.py — docstrings added
+  - [ ] data/stage_05/ — pending
+- [ ] Shared modules
+  - [ ] general.py — docstrings added
+  - [ ] stats.py — docstrings added
+- [x] README.md — initial version created (citation placeholder pending)
+- [ ] manuscript/ — copied

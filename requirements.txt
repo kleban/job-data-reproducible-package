@@ -1,0 +1,31 @@
+# Core data processing
+pandas==2.3.3
+numpy==2.4.0
+
+# Visualisation
+# NOTE: matplotlib and seaborn were not found in the project .venv.
+# Versions below are current stable releases — adjust if needed.
+matplotlib==3.10.1
+seaborn==0.13.2
+
+# Environment variables
+python-dotenv==1.2.1
+
+# Language detection
+fast-langdetect==1.0.0
+
+# Progress bars
+tqdm==4.67.1
+
+# NLP / embeddings
+sentence-transformers==5.2.0
+transformers==4.57.3
+torch==2.9.1
+
+# OpenAI API (Batch API used in Stage 3)
+openai==2.14.0
+
+# Fuzzy string matching (Stage 4 — ESCO skills mapping)
+# NOTE: rapidfuzz was not found in the project .venv.
+# Version below is the current stable release — adjust if needed.
+rapidfuzz==3.13.0
