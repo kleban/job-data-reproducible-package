@@ -29,3 +29,6 @@ openai==2.14.0
 # NOTE: rapidfuzz was not found in the project .venv.
 # Version below is the current stable release — adjust if needed.
 rapidfuzz==3.13.0
+
+# Parquet file support (Stage 5 — monthly aggregation)
+pyarrow

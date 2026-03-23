@@ -1,7 +1,6 @@
 import os
 import pandas as pd
 import re
-from fast_langdetect import detect as _ft_detect
 import general as g
 from general import extract_date_from_file_name  # re-exported so notebooks can call st1.extract_date_from_file_name
 
@@ -303,6 +302,10 @@ def detect_lang(df, column_to_detect, batch=3000, max_len=100):
             or None if detection fails.
     """
     try:
+        # Lazy import — fast_langdetect requires fasttext (C extension).
+        # Importing at the top level would break all other stages on systems
+        # where fasttext_pybind is not installed (e.g. Python 3.13 on Windows).
+        from fast_langdetect import detect as _ft_detect
         langs = []
         for start in range(0, len(df), batch):
             chunk = df[column_to_detect].iloc[start:start + batch]
