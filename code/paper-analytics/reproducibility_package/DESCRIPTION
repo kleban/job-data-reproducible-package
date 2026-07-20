@@ -1,0 +1,33 @@
+Package: UkraineSkillsRepro
+Title: Reproducibility Package for Ukraine Digital Skills Paper
+Version: 1.0.0
+Description: Replication code for 'War and the Digital Divide: Conflict
+    Intensity and Skill Demand in Ukraine's Labour Market'.
+Authors@R: c(
+    person("Britta", "Rude", role = "aut"),
+    person("Yurii", "Kleban", role = "aut")
+  )
+License: MIT
+Imports:
+    arrow,
+    tidyverse,
+    skimr,
+    janitor,
+    here,
+    lubridate,
+    strucchange,
+    sandwich,
+    lmtest,
+    modelsummary,
+    kableExtra,
+    ggplot2,
+    tseries,
+    readxl,
+    httr,
+    jsonlite,
+    zoo,
+    msm,
+    car,
+    forecast,
+    patchwork
+Encoding: UTF-8

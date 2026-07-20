@@ -8,6 +8,10 @@ numpy==2.4.0
 matplotlib==3.10.1
 seaborn==0.13.2
 
+# Statistical tests and Excel reference-data input (paper analytics)
+scipy==1.17.1
+openpyxl==3.1.5
+
 # Environment variables
 python-dotenv==1.2.1
 
