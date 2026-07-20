@@ -63,7 +63,7 @@ Notebook groups found:
 
 ### Step 1 — Establish the canonical main validation workflow
 
-Status: **in progress**
+Status: **completed**
 
 - [x] 1.1 Compare all versions of `01_remove_columns.ipynb` by executable code, modification date, inputs, and outputs.
 - [x] 1.2 Present differences and recommend one canonical version.
@@ -72,47 +72,57 @@ Status: **in progress**
 - [x] 1.5 Update explicit paths for the new repository structure.
 - [x] 1.6 Add title, purpose, prerequisites, input/output documentation, and code comments.
 - [x] 1.7 Validate syntax and all referenced paths.
-- [ ] 1.8 Repeat items 1.1–1.7 for `02_stats_final.ipynb`.
-- [ ] 1.9 Repeat items 1.1–1.7 for `03_check_classification.ipynb`.
-- [ ] 1.10 Verify the complete 01 → 02 → 03 handoff.
+- [x] 1.8a Compare the principal versions of `02_stats_final.ipynb` and verify their computed files.
+- [x] 1.8b After approval, migrate and rename the canonical notebook.
+- [x] 1.8c Include the computed sample, manual-review template, and six descriptive-statistics files.
+- [x] 1.8d Update paths, add documentation/comments, and validate notebook 02.
+- [x] 1.9a Compare the principal versions of `03_check_classification.ipynb`, identify the final manual-coding file, and verify the reported statistics.
+- [x] 1.9b After approval, migrate and rename the canonical notebook and completed manual-coding file.
+- [x] 1.9c Include the classification-accuracy and grouped error-rate outputs.
+- [x] 1.9d Update paths, fix the extract-type index label, add documentation/comments, and validate notebook 03.
+- [x] 1.10 Verify the complete 01 → 02 → 03 handoff. Notebook 01 documents the private-input construction; the public executable sequence begins with the included notebook 01 output and runs notebooks 02 → 03.
 
 ### Step 2 — Prepare threshold-selection analyses
 
-Status: **pending**
+Status: **completed**
 
-- [ ] 2.1 Compare the threshold notebooks and identify the final analytical version.
-- [ ] 2.2 Document how threshold selection relates to the reviewer question.
-- [ ] 2.3 After approval, migrate the selected notebook(s).
-- [ ] 2.4 Migrate only the required threshold input and validation files.
-- [ ] 2.5 Update explicit repository-relative paths.
-- [ ] 2.6 Add comments and notebook-level documentation.
-- [ ] 2.7 Validate generated threshold statistics and output files.
+- [x] 2.1 Compare the threshold notebooks and identify the final analytical version.
+- [x] 2.2 Document how threshold selection relates to the reviewer question and manuscript Table A6.
+- [x] 2.3 Migrate one cleaned canonical notebook as `04_compare_extraction_thresholds.ipynb`.
+- [x] 2.4 Include only the non-disclosive aggregate correct/compared counts required to reproduce Table A6.
+- [x] 2.5 Update explicit repository-relative paths.
+- [x] 2.6 Add comments, provenance, and notebook-level limitation documentation.
+- [x] 2.7 Validate the generated threshold table against every value reported in Table A6.
+
+Historical-data note: the vacancy-level predictions used for the archived threshold 0.7 result were overwritten. The retained analysis-ready counts reproduce the published table without fabricating vacancy-level records. The limitation is stated in the notebook and data README.
 
 ### Step 3 — Prepare Q6 diagnostic analyses
 
-Status: **pending**
+Status: **completed — excluded from the replication package**
 
-- [ ] 3.1 Review the Stage 3, Stage 4, and file-problem diagnostic notebooks.
-- [ ] 3.2 Determine whether they form one sequential workflow or independent checks.
-- [ ] 3.3 Identify duplicate, exploratory, or unused cells.
-- [ ] 3.4 Present the proposed retained notebook set for approval.
-- [ ] 3.5 Migrate approved notebooks and their required data.
-- [ ] 3.6 Add comments, purpose statements, inputs, outputs, and execution instructions.
-- [ ] 3.7 Validate each diagnostic output.
+- [x] 3.1 Review the Stage 3, Stage 4, and file-problem diagnostic notebooks.
+- [x] 3.2 Determine that the three stage-summary notebooks are related exploratory checks and that the file-problem notebook is a separate one-day ID-flow audit.
+- [x] 3.3 Identify inconsistent variable state, overwritten duplicate filenames, unavailable Stage 5 daily-unique data, and outputs that are not manuscript results.
+- [x] 3.4 Apply the approved retention rule: keep only notebooks whose calculations appear in the manuscript.
+- [x] 3.5 Exclude all four Q6 diagnostic notebooks because none produces a table, figure, or reported statistic in the manuscript.
+- [x] 3.6 Do not migrate their private inputs, intermediate files, or diagnostic outputs.
+- [x] 3.7 Leave the source notebooks in `Q3/` until the separately approved cleanup stage.
 
 ### Step 4 — Review supporting and miscellaneous files
 
-Status: **pending**
+Status: **completed — no additional files retained**
 
-- [ ] 4.1 Determine whether `read_stats.ipynb` is required.
-- [ ] 4.2 Determine whether `yo.csv` is a genuine input/output or a temporary file.
-- [ ] 4.3 Review root-level duplicate notebooks not selected in Steps 1–3.
-- [ ] 4.4 Classify each remaining file as retained, archived, duplicate, temporary, or excluded.
-- [ ] 4.5 Obtain approval for the classification.
+- [x] 4.1 Exclude `read_stats.ipynb`: it contains only imports and produces no manuscript calculation or output.
+- [x] 4.2 Exclude `yo.csv`: it is a preliminary merged validation file, and 149 of its 200 manual codes differ from the final manuscript-validation data.
+- [x] 4.3 Review all root-level duplicate notebooks not selected in Steps 1–3.
+- [x] 4.4 Classify old validation/threshold copies as superseded duplicates and all Q6 diagnostics as excluded non-manuscript analyses.
+- [x] 4.5 Apply the approved rule that only notebooks whose calculations appear in the manuscript are retained.
+
+No files were deleted from `Q3/`; excluded and superseded files remain available for the final explicitly approved cleanup decision.
 
 ### Step 5 — Organize data files
 
-Status: **pending**
+Status: **completed**
 
 Proposed target structure:
 
@@ -124,19 +134,19 @@ data/data-pipeline-answers/
 └── README.md
 ```
 
-- [ ] 5.1 Trace every retained notebook read operation to a source file or file pattern.
-- [ ] 5.2 Identify the minimal reproducible input set.
-- [ ] 5.3 Separate generated interim files from true inputs.
-- [ ] 5.4 Preserve manual-review datasets needed to reproduce validation statistics.
-- [ ] 5.5 Exclude original source inputs from the public package and document their provenance and restriction.
-- [ ] 5.6 Select the earliest publishable computed file as the public starting point for each workflow.
-- [ ] 5.7 Convert formats only when needed and only after approval.
-- [ ] 5.8 Document provenance, row counts, columns, and role of every retained dataset.
-- [ ] 5.9 Verify that no retained notebook depends on `Q3/` paths.
+- [x] 5.1 Trace every retained notebook read operation to a source file or file pattern.
+- [x] 5.2 Identify the minimal reproducible input set.
+- [x] 5.3 Separate generated interim files from true inputs.
+- [x] 5.4 Preserve manual-review datasets needed to reproduce validation statistics.
+- [x] 5.5 Exclude original source inputs from the public package and document their provenance and restriction.
+- [x] 5.6 Select the earliest publishable computed file as the public starting point for each workflow.
+- [x] 5.7 Retain publication datasets in Parquet/CSV rather than internal Pickle formats.
+- [x] 5.8 Document provenance, row counts, columns, and role of every retained dataset.
+- [x] 5.9 Verify that no retained notebook depends on `Q3/` paths.
 
 ### Step 6 — Organize outputs
 
-Status: **pending**
+Status: **completed**
 
 Proposed target structure:
 
@@ -148,50 +158,48 @@ output/data-pipeline-answers/
 └── README.md
 ```
 
-- [ ] 6.1 Map each reviewer answer to its final table, figure, or validation statistic.
-- [ ] 6.2 Move approved existing outputs.
-- [ ] 6.3 Ensure notebooks write new outputs directly to the target folders.
-- [ ] 6.4 Remove ambiguous names such as `final`, `new`, numbered copies, or terminal-export suffixes from canonical outputs.
-- [ ] 6.5 Document which notebook creates each output.
+- [x] 6.1 Map manuscript Tables A2-A6 to final CSV files.
+- [x] 6.2 Generate approved outputs in the reviewer-answer output folders.
+- [x] 6.3 Ensure notebooks write new outputs directly to the target folders.
+- [x] 6.4 Use descriptive canonical output names without `final`, `new`, or numbered-copy suffixes.
+- [x] 6.5 Document which notebook creates each output.
 
 ### Step 7 — Documentation and dependency review
 
-Status: **pending**
+Status: **completed**
 
-- [ ] 7.1 Rewrite `notebooks/data-pipeline-answers/README.md` with execution order and notebook/output mapping.
-- [ ] 7.2 Rewrite `data/data-pipeline-answers/README.md` with input and validation-data documentation.
-- [ ] 7.3 Rewrite `output/data-pipeline-answers/README.md` with the final output inventory.
-- [ ] 7.4 Review `Q3/requirements.txt` and merge only required packages into the repository dependency documentation.
-- [ ] 7.5 Record the Python version and package versions used by the retained notebooks.
-- [ ] 7.6 Confirm that no API keys, local usernames, environment paths, or private credentials are present.
+- [x] 7.1 Rewrite `notebooks/data-pipeline-answers/README.md` with execution order and notebook/output mapping.
+- [x] 7.2 Rewrite `data/data-pipeline-answers/README.md` with input, provenance, restriction, and validation-data documentation.
+- [x] 7.3 Rewrite `output/data-pipeline-answers/README.md` with the Tables A2-A6 output inventory.
+- [x] 7.4 Confirm that the retained notebooks require only packages already pinned in the repository requirements.
+- [x] 7.5 Record and test `pandas==2.3.3`, `numpy==2.4.0`, and `pyarrow==21.0.0`.
+- [x] 7.6 Confirm that no API keys, local usernames, absolute environment paths, or private credentials are present.
 
 ### Step 8 — Final reproducibility audit
 
-Status: **pending**
+Status: **completed**
 
-- [ ] 8.1 Parse every retained notebook and clear obsolete execution errors.
-- [ ] 8.2 Check that every input path exists.
-- [ ] 8.3 Check that every output path points inside `output/data-pipeline-answers/`.
-- [ ] 8.4 Run notebooks in documented order where feasible.
-- [ ] 8.5 Compare regenerated statistics with the approved reviewer-answer values.
-- [ ] 8.6 Confirm that the main `data-pipeline` remains unchanged and independent.
-- [ ] 8.7 Produce the final file inventory and completion summary.
+- [x] 8.1 Parse every retained notebook and confirm that all code cells compile without saved execution errors.
+- [x] 8.2 Check every public input path; document the intentionally unavailable private notebook 01 inputs.
+- [x] 8.3 Check that every output path points inside `output/data-pipeline-answers/`.
+- [x] 8.4 Run public notebooks 02-04 twice in documented order with pinned package versions.
+- [x] 8.5 Match regenerated manuscript Tables A2-A6 exactly and confirm stable hashes across repeated runs.
+- [x] 8.6 Confirm that the main `data-pipeline` remains unchanged and independent.
+- [x] 8.7 Produce the final file inventory and completion summary.
+
+Audit date: **2026-07-20**. Public execution begins with notebook 02. Notebook 01 is retained as data-management documentation for the restricted Jooble inputs. The coder/adjudication details not present in the retained project materials are disclosed in the validation README rather than inferred.
 
 ### Step 9 — Source-folder cleanup
 
-Status: **blocked until explicit approval**
+Status: **completed**
 
-- [ ] 9.1 Confirm that every approved file has been copied and validated.
-- [ ] 9.2 Present the list of obsolete/duplicate files proposed for removal.
-- [ ] 9.3 Remove `Q3/.venv`, `Q3/.idea`, duplicates, and migrated source files only after explicit approval.
-- [ ] 9.4 Remove the empty `Q3/` folder only after final confirmation.
+- [x] 9.1 Confirm that every approved file has been copied and validated.
+- [x] 9.2 Present the obsolete, duplicate, exploratory, and private source-folder contents for removal.
+- [x] 9.3 Remove the untracked `Q3/` source folder after explicit user approval.
+- [x] 9.4 Verify that `Q3/` is absent and that all required retained files still exist.
 
 ## Current Next Action
 
-Begin Step 1.8: compare the principal versions of `02_stats_final.ipynb`:
+The `data-pipeline-answers` migration, audit, and source cleanup are complete.
 
-- `Q3/02_stats_final.ipynb`
-- `Q3/__02_stats_final.ipynb`
-- `Q3/07_stats/notebooks/02_stats_final.ipynb`
-
-No migration or source cleanup will occur until the comparison is reviewed and approved.
+Proceed to the next separately approved replication-package workstream.
