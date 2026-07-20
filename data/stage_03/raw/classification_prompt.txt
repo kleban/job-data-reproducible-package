@@ -1,3 +1,0 @@
-1) Use title and the provided skills or description (if skills missing).
-2) Select the single best 4‑digit ESCO occupation code & ESCO title in English language.
-3) Return a JSON object that matches the classifyPosting schema.

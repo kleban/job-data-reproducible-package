@@ -1,115 +1,82 @@
-# Local Environment Setup
+# Python Data-Pipeline Setup
 
 ## Requirements
 
-- **Python 3.13.12** (recommended — all dependencies are compatible; Python 3.14 is not recommended as `sentence-transformers` and `fast-langdetect` do not yet officially support it)
-- `pip` (bundled with Python)
-- An **OpenAI API key** (required for Stage 3 — LLM-based classification, and Stage 4 — region enrichment)
+- Python 3.13.12
+- `pip`
+- Jupyter Notebook or JupyterLab
+- An OpenAI API key only when rerunning Stages 3 or 4.5
 
----
+## 1. Create and activate a virtual environment
 
-## 1. Clone or download the repository
+From the repository root:
 
-```bash
-git clone <repository-url>
-cd mendely-paper-repository
-```
+### Windows PowerShell
 
-Or download and unzip the archive from Mendeley Data, then navigate into the folder.
-
----
-
-## 2. Create a virtual environment
-
-**Windows:**
-```bash
+```powershell
 python -m venv venv
 venv\Scripts\activate
 ```
 
-**macOS / Linux:**
+### macOS or Linux
+
 ```bash
 python3 -m venv venv
 source venv/bin/activate
 ```
 
-You should see `(venv)` in your terminal prompt once the environment is active.
-
----
-
-## 3. Install dependencies
+## 2. Install pinned dependencies
 
 ```bash
 pip install -r requirements.txt
 ```
 
-> **Note:** `torch` and `sentence-transformers` are large packages (~2 GB).
-> Installation may take several minutes depending on your connection speed.
+PyTorch and sentence-transformers are large dependencies, so installation may take several minutes. The pinned environment uses the default CPU-compatible PyTorch distribution; GPU configuration is optional and platform-specific.
 
-> **GPU support (optional):** The default `torch` version in `requirements.txt`
-> targets CPU. For GPU acceleration, replace it with the appropriate CUDA build
-> from [https://pytorch.org/get-started/locally/](https://pytorch.org/get-started/locally/).
+## 3. Create the local configuration
 
----
+Copy the publishable template to the local `.env` file:
 
-## 4. Configure environment variables
+### Windows PowerShell
 
-The `.env` file lives in the `notebooks/` folder — this is where the notebooks
-look for it at runtime (paths are relative to that folder).
-
-Open `notebooks/.env` and replace `YOUR_OPENAI_API_KEY` with your actual key:
-
-```
-OPENAI_API_KEY = "sk-..."
+```powershell
+Copy-Item notebooks\data-pipeline\.env.example notebooks\data-pipeline\.env
 ```
 
-All data paths are pre-configured to match this repository's folder structure
-and do not need to be changed. See inline comments inside `notebooks/.env`
-for an explanation of each variable.
-
-> **Important:** Never commit your `.env` file with a real API key to version control.
-
----
-
-## 5. Test the environment
-
-Before running the pipeline, verify that all packages are installed correctly:
+### macOS or Linux
 
 ```bash
+cp notebooks/data-pipeline/.env.example notebooks/data-pipeline/.env
+```
+
+Edit `notebooks/data-pipeline/.env` and add `OPENAI_API_KEY` only if API-dependent stages will be rerun. The `.env` file is ignored by Git. Never place a live key in `.env.example`, a notebook, or committed documentation.
+
+All configured paths are relative to `notebooks/data-pipeline/`. Do not change them unless the repository structure changes.
+
+## 4. Start Jupyter from the notebook directory
+
+```powershell
+Set-Location notebooks\data-pipeline
 jupyter notebook
 ```
 
-Open `notebooks/before_start_test_environment.ipynb` and run all cells top to bottom.
+Or on macOS/Linux:
 
-Every cell should print a ✅ line. If you see a ❌, re-run `pip install -r requirements.txt` and check the error message for the failing package.
+```bash
+cd notebooks/data-pipeline
+jupyter notebook
+```
 
-> **Note on `fast-langdetect`:** The first run will automatically download a ~125 MB language detection model (`lid.176.bin`). This is expected — it only happens once.
+This is the recommended launch location. Each processing notebook also calls `pipeline_bootstrap.py`, which locates the repository code and normalises the working directory before loading `.env`.
 
-> **Note on `OPENAI_API_KEY`:** If you have not yet filled in your API key in `.env`, the dotenv cell will show `OPENAI_API_KEY = YOUR_OPENAI_API_KEY`. This is fine for now — the key is only required for Stage 3 and Stage 4.5.
+## 5. Test the environment
 
----
+Open `before_start_test_environment.ipynb` and run all cells from top to bottom. Resolve any missing dependency before running a processing notebook.
 
-## 6. Run the pipeline
+The first use of `fast-langdetect` may download its language-detection model. Stage 2 downloads the sentence-transformer model on first use and reuses the standard Hugging Face cache.
 
-Once all cells in `before_start_test_environment.ipynb` show ✅, open the remaining notebooks in the `notebooks/` folder and run them in stage order (Stage 1 → Stage 2 → ... → Stage 5).
+## 6. Run the notebooks
 
-See `README.md` for the full pipeline description and stage-by-stage instructions.
+There is no combined runner. Open and execute each notebook separately using the order in [README.md](README.md) or [the notebook guide](notebooks/data-pipeline/README.md).
 
----
-
-## Dependency notes
-
-| Package | Version | Purpose |
-|---------|---------|---------|
-| pandas | 2.3.3 | Data manipulation throughout the pipeline |
-| numpy | 2.4.0 | Numerical operations |
-| matplotlib | 3.10.1 | Visualisation (stats.py) |
-| seaborn | 0.13.2 | Visualisation (stats.py) |
-| python-dotenv | 1.2.1 | Loading API keys from .env |
-| fast-langdetect | 1.0.0 | Language detection (Stage 1) |
-| tqdm | 4.67.1 | Progress bars |
-| sentence-transformers | 5.2.0 | Embedding-based skills extraction (Stage 2) |
-| transformers | 4.57.3 | Transformer models (Stage 2) |
-| torch | 2.9.1 | Deep learning backend for transformers |
-| openai | 2.14.0 | OpenAI Batch API (Stages 3–4) |
-| rapidfuzz | 3.13.0 | Fuzzy string matching for ESCO mapping (Stage 4) |
+Stages 3 and 4.5 require an API key only when their OpenAI Batch API operations are rerun. Some API notebooks must be run once to submit jobs and again after remote processing completes.

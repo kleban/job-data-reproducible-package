@@ -31,4 +31,4 @@ openai==2.14.0
 rapidfuzz==3.13.0
 
 # Parquet file support (Stage 5 — monthly aggregation)
-pyarrow
+pyarrow==21.0.0

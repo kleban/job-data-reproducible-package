@@ -1,0 +1,25 @@
+[
+  {
+    "name": "classifyPosting",
+    "description": "From the posting title, candidate skills return the initial id, single best 4-digit ESCO occupation and title in English language. Both code and title MUST be the official English version.",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "esco_code": {
+          "type": "string"
+        },
+        "esco_title": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "esco_code",
+        "esco_title"
+      ]
+    }
+  }
+]
