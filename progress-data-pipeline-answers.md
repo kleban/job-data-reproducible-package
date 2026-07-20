@@ -2,7 +2,7 @@
 
 ## Scope
 
-This workstream prepares the reviewer-answer analyses currently stored in `Q3/` for inclusion in the replication repository.
+This workstream records the completed migration of the reviewer-answer analyses from the former `Q3/` working folder into the replication repository. References to `Q3/` below are historical audit notes; that source folder has been removed after validation and approval.
 
 Target locations:
 

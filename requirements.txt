@@ -26,7 +26,7 @@ sentence-transformers==5.2.0
 transformers==4.57.3
 torch==2.9.1
 
-# OpenAI API (Batch API used in Stage 3)
+# OpenAI API (Batch API used in Stages 1.2, 3, and 4.5)
 openai==2.14.0
 
 # Fuzzy string matching (Stage 4 — ESCO skills mapping)

@@ -1,39 +1,43 @@
-# data/data-pipeline/input — Demo Data Notice
+# Pipeline Input Data
 
-This folder contains the raw input data for the pipeline.
+## Public file
 
-## Synthetic demo file
+| File | Records | Status | Purpose |
+|---|---:|---|---|
+| `ua-2024-01-01.json` | 100 | Synthetic | Demonstrates the daily input schema without disclosing original vacancy records |
 
-| File | Rows | Description |
-|------|------|-------------|
-| `ua-2024-01-01.json` | 100 | **Synthetic demo data** — generated for testing and reproducibility purposes |
+The file contains no real job advertisements. It is designed for structural and code-path testing and cannot reproduce the paper estimates.
 
-`ua-2024-01-01.json` was generated synthetically to allow users to run the full
-pipeline without access to the original dataset. It preserves the exact structure
-of real input files (column names, data types, value ranges) but contains no real
-job vacancy records.
+## Restricted source
 
-## Real data structure
+The substantive analysis uses daily online vacancy snapshots supplied to the authors by Jooble. The original records cover 2021–2025 and contain proprietary vacancy text. They are not included because of access and redistribution restrictions. Researchers seeking the source records must request access from the data provider.
 
-Each input file is a JSON array of job vacancy records with the following fields:
+For an authorised full-data rerun, place one JSON array per day in this folder using the naming convention:
 
-| Field | Type | Description |
-|-------|------|-------------|
-| `id` | integer | Unique job vacancy identifier |
-| `title` | string | Job title |
-| `description` | string | Full job description text |
-| `region` | string | Ukrainian region where the job is located |
-| `min_salary` | number \| null | Minimum salary (if specified) |
-| `max_salary` | number \| null | Maximum salary (if specified) |
-| `currency` | string \| null | Salary currency (UAH, USD, EUR) |
-| `salary_rate` | string \| null | Payment frequency (monthly, hourly) |
-| `date_created` | string | Vacancy publication date (YYYY-MM-DD HH:MM:SS) |
-| `date_expired` | string \| null | Vacancy expiry date (YYYY-MM-DD HH:MM:SS) |
-| `number_of_clicks` | integer | Number of times the vacancy was viewed |
+```text
+ua-YYYY-MM-DD.json
+```
 
-## Reproducing with real data
+Stage 1 processes files in date/filename order because the first observed appearance of a vacancy determines the global deduplication result.
 
-The original dataset consists of daily JSON snapshots of job vacancies scraped
-from a Ukrainian job board. To run the pipeline on real data, place your JSON
-files in this folder using the naming convention `ua-YYYY-MM-DD.json` and
-re-run the Stage 1 notebooks.
+## Expected record structure
+
+| Field | Expected type | Description |
+|---|---|---|
+| `id` | integer/string identifier | Vacancy identifier |
+| `title` | string | Original vacancy title |
+| `description` | string | Original vacancy description |
+| `region` | string | Source location text |
+| `min_salary` | number or null | Minimum advertised salary |
+| `max_salary` | number or null | Maximum advertised salary |
+| `currency` | string or null | Salary currency |
+| `salary_rate` | string or null | Salary period or rate |
+| `date_created` | date/time value | Vacancy creation date |
+| `date_expired` | date/time value or null | Vacancy expiry date |
+| `number_of_clicks` | integer/number | Recorded click count |
+
+Additional source fields may be retained by the pipeline. The included synthetic file should be treated as the machine-readable schema example.
+
+## Consumer
+
+`notebooks/data-pipeline/stage_1_read_initial_data_fast.ipynb` reads this directory and writes Stage 1 outputs to `../stage_01/`.

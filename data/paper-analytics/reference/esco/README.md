@@ -1,8 +1,14 @@
-# ESCO reference files
+# ESCO Digital and Green Skill Collections
 
-Notebook `02_analyze_vacancy_skills_and_occupation_composition.ipynb` expects:
+The Python paper-analysis notebook expects these files:
 
-- `digitalSkillsCollection_en.csv`
-- `greenSkillsCollection_en.csv`
+```text
+digitalSkillsCollection_en.csv
+greenSkillsCollection_en.csv
+```
 
-These files are ESCO classification collections and are used to identify digital and green skills among the extracted English skill labels. Add the original files here together with their source and version information.
+They identify which extracted English skill labels belong to ESCO’s digital and green collections. They are distinct from the general occupation/skill tables used by Stages 1.2, 2, and 4.
+
+Current status: **not yet added**.
+
+When the files are supplied, document the ESCO release/version, language, source URL, access date, license, row count, key identifier/label columns, and whether the copies are unchanged official exports.

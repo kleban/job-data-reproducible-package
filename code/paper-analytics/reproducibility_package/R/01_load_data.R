@@ -31,7 +31,8 @@ library(here)        # Robust relative file paths
 
 # Data files are stored in the data/ folder of this R project.
 
-if (!exists("data_dir")) data_dir <- here::here("data")
+if (!exists("pkg_root")) pkg_root <- if (dir.exists(here::here("R"))) here::here() else here::here("code", "paper-analytics", "reproducibility_package")
+if (!exists("data_dir")) data_dir <- file.path(pkg_root, "data")
 data_path <- file.path(data_dir, "final_weekly.parquet")
 
 # Verify the file exists before proceeding

@@ -1,7 +1,13 @@
-# ACLED reference data
+# ACLED Conflict Data
 
-Notebook `02_analyze_vacancy_skills_and_occupation_composition.ipynb` expects:
+The Python paper-analysis notebook expects:
 
-- `europe-central-asia_full_data_up_to-2025-07-25.xlsx`
+```text
+europe-central-asia_full_data_up_to-2025-07-25.xlsx
+```
 
-The workbook is used to construct monthly and weekly measures of conflict events and fatalities for Ukraine. Confirm whether the source file may be redistributed; otherwise document the access procedure and provide an appropriately structured substitute where required by the journal.
+The workbook is used to derive monthly and weekly measures of conflict events and fatalities for Ukraine.
+
+Current status: **not yet added**. This directory is the canonical repository location for the workbook used by the Python workflow. The integrated R project expects a byte-identical copy at `code/paper-analytics/reproducibility_package/data/europe-central-asia_full_data_up_to-2025-07-25.xlsx`. Record and compare the SHA-256 checksums of both copies when the file is added so the workflows cannot diverge.
+
+Before publication, confirm the ACLED access/download procedure, access date, geographic and temporal coverage, license/redistribution conditions, and checksum of any included copy.

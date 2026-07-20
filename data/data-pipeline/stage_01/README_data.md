@@ -1,81 +1,52 @@
-# data/data-pipeline/stage_01 — Stage 1 Outputs
+# Stage 1 Data: Cleaning and Deduplication
 
-## What this stage produces
+## Purpose
 
-Stage 1 reads daily job vacancy JSON files from `data/data-pipeline/input/`, deduplicates records, cleans text (removes dates, salaries, and emoji), detects the language of each vacancy's title and description, and saves one cleaned pickle file per input day.
+Stage 1 reads daily vacancy JSON snapshots, derives the snapshot date from each filename, cleans vacancy titles and descriptions, detects text language, and separates globally unique vacancy records from repeated daily observations.
 
-Two kinds of intermediate artefacts are kept alongside the main output: a per-file id/region/clicks snapshot used for regional reconciliation, and the global unique-ID database that tracks which vacancy IDs have already been seen across all processed days.
+## Producer and handoff
 
----
+- Producer: `notebooks/data-pipeline/stage_1_read_initial_data_fast.ipynb`
+- Input: `data/data-pipeline/input/ua-YYYY-MM-DD.json`
+- Main output: `output/ua-YYYY-MM-DD.pkl`
+- Next consumer: Stage 2
+- Additional consumer: Stage 5 uses the ID/region/click snapshots when rebuilding full daily files
 
-## Folder structure
+## Transformations
 
-The stage uses a flat layout: data files and named output directories are stored directly under this stage directory. The paths match `notebooks/data-pipeline/.env.example`.
+1. discover input files in filename order;
+2. read daily JSON arrays;
+3. normalise and clean title/description text;
+4. detect title and description language;
+5. store ID, region, and click information for every daily snapshot;
+6. retain only IDs not observed in an earlier processed file for the unique daily output;
+7. update resumable process trackers.
 
----
 ## Files
 
-### `process.pkl`
+| Path | Role |
+|---|---|
+| `process.pkl` | One tracker row per source file, including cleaning and snapshot status |
+| `unic_id_db.pkl` | Global database of vacancy IDs already observed in earlier files |
+| `id_region_click/ua-YYYY-MM-DD.pkl` | Daily ID, region, and click snapshot used in later rejoining |
+| `output/ua-YYYY-MM-DD.pkl` | Cleaned, globally deduplicated daily vacancy records |
 
-Pandas DataFrame — one row per input file. Tracks processing status across runs so that already-processed files are skipped on subsequent runs.
+Tracker files can contain paths from the environment where they were generated. They support resuming work but are not portable research datasets.
 
-| Column | Description |
-|--------|-------------|
-| `input_file` | Input filename stem (e.g. `ua-2024-01-01`) |
-| `input_path` | Full path to the source JSON file |
-| `clean_path` | Full path to the cleaned output pickle |
-| `clean_status` | Cleaning status: `complete` or blank |
-| `id_region_path` | Full path to the id/region/click snapshot |
-| `id_region_status` | Snapshot status: `complete` or blank |
+## Main output fields
 
-### `unic_id_db.pkl`
+The Stage 1 output preserves source vacancy fields and adds:
 
-Pandas DataFrame — accumulates all vacancy IDs seen so far across the entire dataset. Used to deduplicate across daily files: a vacancy that first appeared on 2024-01-01 is excluded from all later files, ensuring each record appears only once in the pipeline.
+| Field | Description |
+|---|---|
+| `date` | Snapshot date derived from the filename |
+| `clean_title` | Normalised vacancy title |
+| `clean_desc` | Normalised vacancy description |
+| `title_lang` | Detected title language |
+| `desc_lang` | Detected description language |
 
-| Column | Description |
-|--------|-------------|
-| `id` | Vacancy ID (integer, hashed) |
+Typical language labels include `uk`, `ru`, `en`, `pl`, and `cs`.
 
-### `id_region_click/ua-YYYY-MM-DD.pkl`
+## Public demonstration
 
-One file per input day. Each file is a slim Pandas DataFrame recording which vacancy IDs appeared in that day's snapshot along with their region and click count. Used in the regional reconciliation step after deduplication.
-
-| Column | Description |
-|--------|-------------|
-| `id` | Vacancy ID |
-| `region` | Region string as provided in the source data |
-| `number_of_clicks` | Click count recorded on that day |
-
-### `output/ua-YYYY-MM-DD.pkl`
-
-One file per input day. The main Stage 1 output. Contains only vacancies whose IDs were not seen in any earlier file (global unique records for that day).
-
-| Column | Type | Description |
-|--------|------|-------------|
-| `id` | int64 | Vacancy ID |
-| `title` | string | Original job title |
-| `description` | string | Original job description |
-| `region` | string | Region string |
-| `min_salary` | float | Minimum salary (if provided) |
-| `max_salary` | float | Maximum salary (if provided) |
-| `currency` | string | Salary currency (UAH / USD / EUR) |
-| `salary_rate` | string | Payment frequency (month / hour) |
-| `date_created` | string | Vacancy publication date |
-| `date_expired` | string | Vacancy expiry date |
-| `clean_title` | string | Cleaned, normalised title (lowercase, no special chars) |
-| `clean_desc` | string | Cleaned, normalised description |
-| `title_lang` | string | Detected language of the title (`en`, `uk`, `ru`, `cs`, `pl`) |
-| `desc_lang` | string | Detected language of the description |
-
----
-
-## Demo file
-
-This repository includes one demo input day (`ua-2024-01-01.json`, 100 synthetic rows in `data/data-pipeline/input/`). Running Stage 1 on the demo file produces:
-
-- `id_region_click/ua-2024-01-01.pkl`
-- `process.pkl` (updated)
-- `unic_id_db.pkl` (updated)
-- `output/ua-2024-01-01.pkl`
-
-The full original dataset (2021–2025, ~1,600 daily files) is not included due to size and licensing constraints.
+The repository contains Stage 1 artifacts derived from the synthetic 100-row input day. The complete 2021–2025 daily source and outputs are not published. The demonstration validates structure only and does not preserve the full-data observation count or substantive distributions.

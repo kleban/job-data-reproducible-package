@@ -1,7 +1,7 @@
 # Reproducibility Package
 ## "Labor Demand for Digital Skills in Post-2022 Ukraine: Evidence from Online Job Vacancy Data"
 
-**Authors:** Britta Rude, Yurii Kleban
+**Authors:** Yurii Kleban, Britta Rude
 **R version:** 4.3.0  
 **Last updated:** July 2026
 
@@ -10,7 +10,7 @@
 ## Overview
 
 This package contains the complete R code to replicate all tables and figures in
-the paper. Starting from the raw parquet/Excel data files described below, running
+the paper. Starting from the analysis-ready Parquet and supporting Excel files described below, running
 `run_all.R` reproduces every table (`output/tables/*.tex`) and figure
 (`output/figures/*.pdf` and `*.png`) in the paper.
 
@@ -35,7 +35,7 @@ reproducibility_package/
 │   ├── 11_decomp_within_between.R
 │   ├── 12_mechanisms_remoteshare.R
 │   └── 13_baseline_regression.R
-├── data/                       ← Place raw data files here
+├── data/                       ← Analysis-ready and supporting input files
 ├── output/
 │   ├── figures/                ← Generated figures (.pdf, .png)
 │   └── tables/                 ← Generated LaTeX tables (.tex)
@@ -77,10 +77,11 @@ Accept any prompts to activate the renv environment.
 > **Tip:** If `renv` itself is not yet installed, run
 > `install.packages("renv")` first.
 
-### 4. Place raw data files
+### 4. Check the input files
 
-Copy the required data files into `data/`.  
-See the data section below for the full file list.
+The five bundled inputs are stored in `data/`. Add the pending ACLED workbook to
+that same directory. See [the data description](data/README_data.md) for roles,
+provenance notes, and availability status.
 
 ### 5. Run the full pipeline
 
@@ -89,11 +90,11 @@ source("run_all.R")
 ```
 
 Or open `run_all.R` in RStudio and click **Source**.  
-The script runs all 13 analysis scripts in order and saves outputs to
+The script runs the 12 production scripts (`00` and `02`–`12`) in order and saves outputs to
 `output/tables/` and `output/figures/`.  
 Total runtime: approximately 10–30 minutes depending on hardware.
 
-> All scripts are fully offline.
+> After `renv::restore()` has completed and every input is present, the analysis run itself does not require an external API. Individual scripts can still attempt a CRAN installation if a required R package is missing.
 
 ---
 
@@ -228,17 +229,17 @@ All R packages are managed with [`renv`](https://rstudio.github.io/renv/).
 
 ## Known non-reproducible elements and manual steps
 
-1. **Energy data (Scripts 02, 07):** The electricity outage files
+1. **Energy data (Scripts 02, 07, and retained alternative script 13):** The electricity outage files
    (`2025_10_14_electricity_outages.xlsx` and
-   `2025_10_14_elektro_boiovi_dii_ukraina_minenergo.xlsx`) must be placed in
-   `data/raw/` manually. These are available from
+   `2025_10_14_elektro_boiovi_dii_ukraina_minenergo.xlsx`) are bundled in
+   `data/`. Their sources are
    [energy-map.info](https://energy-map.info/) and the Ukrainian Ministry of
    Energy respectively.
 
-2. **Job posting data:** The underlying job posting data (`final_weekly.parquet`,
+2. **Job posting data:** The bundled analysis-ready files (`final_weekly.parquet`,
    `final_monthly.parquet`, `final_dataset_occ_digital_month.parquet`) were
-   compiled from a Ukrainian online job board. Contact the corresponding author
-   for data access arrangements.
+   compiled from the restricted Jooble vacancy snapshots. The original snapshots
+   are not included; see the repository-level data-availability statement.
 
 3. **ACLED data:** The ACLED data is publicly available and can be downloaded from [the official ACLED website](https://acleddata.com/conflict-data/download-data)
 
@@ -269,12 +270,11 @@ which is convenient for debugging or partial re-runs.
 
 ## Reproducibility checklist before sharing
 
-- [ ] All five data files placed in `data/raw/`
+- [x] Five bundled Parquet/energy input files are present in `data/`
+- [ ] ACLED workbook added to `data/` and its redistribution status documented
 - [ ] `renv::restore()` runs without errors
 - [ ] `run_all.R` completes end-to-end
-- [ ] Delete temporary setup scripts: `renv_setup.R`, `renv_hydrate.R`, `generate_lock.R`,
-  `check_packages.R` and their associated `.txt` log files (`renv_setup_log.txt`,
-  `renv_hydrate_log.txt`, `check_packages_log.txt`, `pkg_versions.txt`)
+- [x] Temporary environment-setup scripts and logs are absent from the published project
 
 ---
 

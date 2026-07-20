@@ -68,6 +68,7 @@ suppressPackageStartupMessages({
 # -----------------------------------------------------------------------------
 
 # ---- 1a. Load ---------------------------------------------------------------
+if (!exists("pkg_root")) pkg_root <- if (dir.exists(here::here("R"))) here::here() else here::here("code", "paper-analytics", "reproducibility_package")
 if (!exists("data_dir")) data_dir <- file.path(pkg_root, "data")
 data_path <- file.path(data_dir, "final_weekly.parquet")
 
@@ -314,7 +315,7 @@ table_notes <- paste(
   sep = " "
 )
 
-if (!exists("pkg_root")) pkg_root <- if (dir.exists(here::here("R"))) here::here() else here::here("reproducibility_package")
+if (!exists("pkg_root")) pkg_root <- if (dir.exists(here::here("R"))) here::here() else here::here("code", "paper-analytics", "reproducibility_package")
 tables_dir <- file.path(pkg_root, "output", "tables")
 if (!dir.exists(tables_dir)) dir.create(tables_dir, recursive = TRUE)
 
@@ -422,7 +423,7 @@ cat("Break tests table saved to:", break_tests_path, "\n\n")
 
 cat("=== 6. Producing Figures ===\n")
 
-if (!exists("pkg_root")) pkg_root <- if (dir.exists(here::here("R"))) here::here() else here::here("reproducibility_package")
+if (!exists("pkg_root")) pkg_root <- if (dir.exists(here::here("R"))) here::here() else here::here("code", "paper-analytics", "reproducibility_package")
 figures_dir <- file.path(pkg_root, "output", "figures")
 if (!dir.exists(figures_dir)) dir.create(figures_dir, recursive = TRUE)
 

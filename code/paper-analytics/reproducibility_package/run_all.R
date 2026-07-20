@@ -27,17 +27,18 @@
 
 library(here)
 
-# Project root: the folder that contains the R/ subfolder.
-# Works whether here() anchors to reproducibility_package/ (via .Rproj)
-# or to the workspace root (when sourced from outside the project).
-pkg_root <- normalizePath(
-  if (dir.exists(here::here("R"))) {
-    here::here()                          # .Rproj open → here() IS the pkg root
-  } else {
-    here::here("reproducibility_package") # running from workspace root
-  },
-  mustWork = FALSE
+# Project root: the folder that contains the R/ subfolder. This supports both
+# opening the nested .Rproj and sourcing this file from the repository root.
+pkg_candidates <- c(
+  here::here(),
+  here::here("code", "paper-analytics", "reproducibility_package")
 )
+pkg_matches <- pkg_candidates[dir.exists(file.path(pkg_candidates, "R"))]
+if (length(pkg_matches) == 0) {
+  stop("Cannot locate code/paper-analytics/reproducibility_package. ",
+       "Open ukraine_skills.Rproj or run from the repository root.")
+}
+pkg_root <- normalizePath(pkg_matches[[1]], mustWork = TRUE)
 
 data_dir <- file.path(pkg_root, "data")
 

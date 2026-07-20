@@ -1,5 +1,7 @@
 # Prompt: Build a Reproducible Research Package for Mendeley Data
 
+> **Scope:** This is an optional generic preparation template, not an instruction for running this paper's replication package. Bracketed placeholders and its example directory tree are intentionally generic. Use the root `README.md` and component guides for the actual repository structure.
+
 ## Purpose
 
 This prompt is for use with Claude (or another AI assistant) when preparing a research

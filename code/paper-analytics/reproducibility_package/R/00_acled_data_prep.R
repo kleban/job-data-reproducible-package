@@ -35,7 +35,7 @@ suppressPackageStartupMessages({
 })
 
 if (!exists("pkg_root")) {
-  pkg_root <- if (dir.exists(here::here("R"))) here::here() else here::here("reproducibility_package")
+  pkg_root <- if (dir.exists(here::here("R"))) here::here() else here::here("code", "paper-analytics", "reproducibility_package")
 }
 if (!exists("data_dir")) {
   data_dir <- file.path(pkg_root, "data")

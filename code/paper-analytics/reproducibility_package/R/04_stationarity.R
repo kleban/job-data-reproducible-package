@@ -61,7 +61,7 @@ suppressPackageStartupMessages({
 })
 
 # Output directories
-if (!exists("pkg_root")) pkg_root <- if (dir.exists(here::here("R"))) here::here() else here::here("reproducibility_package")
+if (!exists("pkg_root")) pkg_root <- if (dir.exists(here::here("R"))) here::here() else here::here("code", "paper-analytics", "reproducibility_package")
 tables_dir  <- file.path(pkg_root, "output", "tables")
 figures_dir <- file.path(pkg_root, "output", "figures")
 if (!dir.exists(tables_dir))  dir.create(tables_dir,  recursive = TRUE)

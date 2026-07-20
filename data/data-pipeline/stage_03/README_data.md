@@ -1,111 +1,56 @@
-# data/data-pipeline/stage_03 — Stage 3 Outputs (ESCO Occupation Classification)
+# Stage 3 Data: ESCO Occupation Classification
 
-## What this stage produces
+## Purpose
 
-Stage 3 classifies each job vacancy with a 4-digit ESCO occupation code and English title using the **OpenAI Batch API** (`gpt-4o-mini`). The process runs asynchronously in two passes:
+Stage 3 assigns an ESCO occupation code and English occupation title to each vacancy through the OpenAI Batch API. The workflow uses `gpt-4o-mini` and runs in two passes so that records missing a usable first-pass classification can be resubmitted.
 
-1. **First pass** — all vacancies are submitted. Records that receive a valid ESCO classification are saved to `result/`.
-2. **Second pass** — vacancies that were not classified in the first pass (missing records) are resubmitted. Results are merged back into the main result pickles.
+## Producer and handoff
 
-Each daily result pickle at the end of Stage 3 contains all columns from Stage 2 plus `esco_code` and `esco_title`.
+- Producers: notebooks 3.1–3.7 in `notebooks/data-pipeline/`
+- Input: `data/data-pipeline/stage_02/output/`
+- Main output: `result/ua-YYYY-MM-DD.pkl`
+- Next consumer: Stage 4 ESCO verification and skill mapping
 
----
+## Two-pass workflow
 
-## Folder structure
+1. Notebook 3.1 creates first-pass request files.
+2. Notebook 3.2 submits/checks a researcher-selected range of files.
+3. Notebook 3.3 downloads and parses completed responses.
+4. Notebook 3.4 separates records without valid results.
+5. Notebook 3.5 creates second-pass requests for those missing records.
+6. Notebook 3.6 submits/checks the selected second-pass file range.
+7. Notebook 3.7 parses the second-pass output and merges recovered classifications.
 
-The stage uses a flat layout: data files and named output directories are stored directly under this stage directory. The paths match `notebooks/data-pipeline/.env.example`.
+Because Batch API jobs are asynchronous, status notebooks must be rerun after remote processing completes.
 
----
-## Files
+## Static request resources
 
-### `classify_schema.json`
+| File | Role |
+|---|---|
+| `classification_prompt.txt` | System instructions for choosing the best ESCO occupation |
+| `classify_schema.json` | Structured function/output schema requiring vacancy ID, ESCO code, and title |
 
-OpenAI function-calling schema for the `classifyPosting` function. Defines three required output fields: `id` (vacancy ID), `esco_code` (4-digit ESCO occupation code), `esco_title` (English occupation title). Passed to the API as the `functions` parameter in each batch request.
+## Generated files
 
-### `classification_prompt.txt`
+| Path | Role |
+|---|---|
+| `input/ua-YYYY-MM-DD.jsonl` | First-pass Batch API requests |
+| `input/missing/ua-YYYY-MM-DD.jsonl` | Second-pass requests for records missing after pass one |
+| `output/ua-YYYY-MM-DD.json` | Downloaded first-pass raw API response |
+| `output/missing/ua-YYYY-MM-DD.json` | Downloaded second-pass raw API response, where generated |
+| `result/ua-YYYY-MM-DD.pkl` | Stage 2 records plus the merged classification result |
+| `result/missing/ua-YYYY-MM-DD.pkl` | Temporary/audit subset of first-pass missing cases |
+| `process.pkl` | Job IDs, statuses, paths, missing counts, and completion state |
+| `log/` | Runtime logs when enabled |
 
-System prompt instructing the LLM to select the single best 4-digit ESCO occupation code and English title from the vacancy title and extracted skill labels (or description if no skills are available).
+## Output fields
 
-### `input/ua-YYYY-MM-DD.jsonl`
+The main result preserves Stage 2 fields and adds the LLM-assigned occupation code and title. Stage 4 later retains the raw values as `classified_code` and `classified_title` and creates separately verified ESCO fields.
 
-One JSONL file per daily input. Each line is a single API request in OpenAI Batch API format:
+## Reproducibility and publication notes
 
-```json
-{
-  "custom_id": "task-id-<row_index>",
-  "method": "POST",
-  "url": "/v1/chat/completions",
-  "body": {
-    "model": "gpt-4o-mini",
-    "temperature": 0,
-    "functions": [...],
-    "messages": [
-      {"role": "system", "content": "<classification_prompt>"},
-      {"role": "user", "content": "{\"id\": ..., \"title\": ..., \"skills\": ...}"}
-    ],
-    "function_call": {"name": "classifyPosting"}
-  }
-}
-```
-
-### `input/missing/ua-YYYY-MM-DD.jsonl`
-
-Second-pass batch input files, created only for days that had unclassified vacancies after the first pass. Same format as the first-pass JSONL files.
-
-### `process.pkl`
-
-Pandas DataFrame — one row per Stage 2 output file. Tracks all asynchronous Batch API steps across both passes.
-
-| Column | Description |
-|--------|-------------|
-| `input_file` | Input filename stem (e.g. `ua-2024-01-01`) |
-| `extract_path` | Path to the Stage 2 output pickle |
-| `input_batch_path` | Path to the first-pass JSONL input file |
-| `input_batch_status` | `created` once the JSONL file has been written |
-| `job_id` | OpenAI Batch API job ID (first pass) |
-| `job_status` | Job status: `in_progress`, `completed`, etc. |
-| `output_batch_path` | Path to the downloaded first-pass output JSON |
-| `output_batch_status` | `complete` once the output file has been downloaded |
-| `result_path` | Path to the final result pickle |
-| `result_status` | `complete` once ESCO codes have been merged |
-| `missing_count` | Number of vacancies without a valid classification after first pass |
-| `missing_path` | Path to the missing-records pickle (second pass input) |
-| `missing_input_batch_status` | `created` or `empty` (no missing records) |
-| `missing_input_batch_path` | Path to the second-pass JSONL input file |
-| `missing_job_status` | Job status for the second-pass batch job |
-| `missing_job_id` | OpenAI Batch API job ID (second pass) |
-| `missing_output_batch_path` | Path to the downloaded second-pass output JSON |
-| `missing_output_batch_status` | `complete` once second-pass output is downloaded |
-| `complete_result_status` | `complete` once second-pass results have been merged |
-| `missing_after` | Number of vacancies still unclassified after second pass |
-
-### `output/ua-YYYY-MM-DD.json`
-
-Raw JSONL response downloaded from the OpenAI Batch API (first pass). Each line contains the full API response for one vacancy request, including the function-call arguments with `esco_code` and `esco_title`. Parsed by `extract_esco_codes()` in `code/data-pipeline/stage3.py`.
-
-### `result/ua-YYYY-MM-DD.pkl`
-
-Final Stage 3 output. Contains all Stage 2 columns plus two new columns:
-
-| Column | Type | Description |
-|--------|------|-------------|
-| `esco_code` | str | 4-digit ESCO occupation code assigned by the LLM |
-| `esco_title` | str | English ESCO occupation title assigned by the LLM |
-
-After the second pass (notebook 3.7), each result pickle contains both successfully classified records and any records recovered in the second pass. Vacancies that could not be classified in either pass have `NaN` in both columns.
-
-### `result/missing/ua-YYYY-MM-DD.pkl`
-
-Temporary file written during processing (notebook 3.4). Contains only the unclassified vacancies extracted from the first-pass result for a given day. After the second pass results are merged (notebook 3.7), these records are folded back into the main result pickle. These files are kept for audit/debugging purposes.
-
----
-
-## Demo file
-
-Running Stage 3 on the demo `ua-2024-01-01.pkl` produces:
-
-- `input/ua-2024-01-01.jsonl` — batch input with one request per vacancy
-- `output/ua-2024-01-01.json` — raw API response
-- `result/ua-2024-01-01.pkl` — final result with `esco_code` and `esco_title`
-
-> **Requires an OpenAI API key.** Set `OPENAI_API_KEY` in `notebooks/data-pipeline/.env` before running Stage 3 notebooks.
+- Rerunning requires `OPENAI_API_KEY` in the ignored local `.env`.
+- Batch calls can incur costs.
+- Service/model changes can prevent byte-identical regeneration.
+- API identifiers and process trackers should be reviewed for sensitive or non-portable metadata before final publication.
+- The included demonstration artifacts do not represent the complete 2021–2025 classification run.

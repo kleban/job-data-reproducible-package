@@ -1,22 +1,37 @@
-# Data-Pipeline Reviewer-Answer Notebooks
+# Reviewer-Answer Notebooks: Data Pipeline
 
-Standalone notebooks supporting responses to reviewer questions about the data pipeline. These notebooks use explicit repository-relative paths and do not depend on `Config` or `.env`.
+These standalone notebooks reproduce classification-validation and threshold-selection results prepared in response to reviewer questions about the data pipeline. They use explicit repository-relative paths and do not load the main pipeline `.env` or `general.Config`.
 
-## Execution order
+## Scope and execution order
 
-| Order | Notebook | Purpose | Public starting input | Output |
-|---|---|---|---|---|
-| 1 | `01_prepare_validation_dataset.ipynb` | Combines private daily files, deduplicates vacancies, and selects classification-validation variables | No; requires non-published daily Parquet files | `classification_validation_population.parquet` |
-| 2 | `02_create_stratified_validation_sample.ipynb` | Describes the validation population and draws a reproducible 200-record stratified sample | `classification_validation_population.parquet` | Sample Parquet, manual-review template, supporting statistics, and both panels of Table A2 |
-| 3 | `03_evaluate_classification_accuracy.ipynb` | Compares pipeline-assigned and manually checked ESCO codes | Sample Parquet and completed manual codes | Supporting statistics and manuscript Tables A3-A5 |
-| 4 | `04_compare_extraction_thresholds.ipynb` | Reproduces manuscript Table A6 from archived aggregate correct/compared counts | `threshold_accuracy_counts.csv` | `classification_accuracy_by_threshold.csv` |
+| Order | Notebook | Input | Main outputs | Publicly executable? |
+|---:|---|---|---|---:|
+| 1 | `01_prepare_validation_dataset.ipynb` | Restricted daily vacancy Parquet files | `classification_validation_population.parquet` | No; documentation of private-input construction |
+| 2 | `02_create_stratified_validation_sample.ipynb` | Included validation population | Reproducible 200-record sample, review template, supporting statistics, Table A2 | Yes |
+| 3 | `03_evaluate_classification_accuracy.ipynb` | Included sample and completed manual codes | Supporting agreement/error statistics and Tables A3–A5 | Yes |
+| 4 | `04_compare_extraction_thresholds.ipynb` | Included archived aggregate counts | Table A6 | Yes; independent of notebooks 01–03 |
 
-Notebook 01 is included to document the construction of the validation population. Public executable replication begins with notebook 02 and the included computed population because the original daily inputs are not published.
+Run the notebooks from `notebooks/data-pipeline-answers/`. Public replication begins with notebook 02 because the proprietary daily vacancy records consumed by notebook 01 cannot be redistributed.
 
-Notebook 04 is independent of notebooks 01-03. It reproduces the archived threshold-sensitivity table from non-disclosive aggregate counts. The historical vacancy-level predictions for threshold 0.7 were overwritten and are not represented as if they were still available; the limitation and count reconstruction are documented in the notebook and data README.
+## Validation design
 
-Run these notebooks from `notebooks/data-pipeline-answers/`.
+- Validation population: 12,679 April 2024 vacancies with a non-missing Stage 4 extraction method.
+- Sample: 200 vacancies allocated proportionally across joint `(desc_lang, extract_type)` strata.
+- Sampling seed: `random_state=42`.
+- Manual reference: completed ESCO coding for all 200 sampled vacancy IDs.
+- Accuracy outputs: full hierarchical ESCO-code agreement and error rates by language and matching method.
 
-## Dependencies
+## Threshold-selection limitation
 
-The retained notebooks require `pandas==2.3.3`, `numpy==2.4.0`, and `pyarrow==21.0.0`, pinned in the repository-level `requirements.txt`. The final audit executed notebooks 02-04 twice with these versions and obtained byte-identical generated artifacts. Notebook 01 additionally requires access to the non-published Jooble daily Parquet files; public execution begins with notebook 02 and the included computed validation population.
+Notebook 04 works from non-disclosive archived correct/compared counts. Historical vacancy-level predictions at threshold 0.7 were overwritten and are not presented as recoverable. The included aggregate counts reproduce Table A6 but cannot reconstruct the original record-level predictions.
+
+## Dependencies and validation status
+
+Required packages are pinned in the repository-level `requirements.txt`, principally pandas, NumPy, and PyArrow.
+
+During the completed audit, notebooks 02–04 were executed twice with the pinned versions and produced byte-identical generated artifacts. Notebook 01 remains documentation-only for public users because its input is restricted.
+
+See:
+
+- [Reviewer-answer data](../../data/data-pipeline-answers/README.md)
+- [Reviewer-answer outputs](../../output/data-pipeline-answers/README.md)

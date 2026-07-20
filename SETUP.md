@@ -5,7 +5,7 @@
 - Python 3.13.12
 - `pip`
 - Jupyter Notebook or JupyterLab
-- An OpenAI API key only when rerunning Stages 3 or 4.5
+- An OpenAI API key only when rerunning Stages 1.2, 3, or 4.5
 
 ## 1. Create and activate a virtual environment
 
@@ -79,4 +79,4 @@ The first use of `fast-langdetect` may download its language-detection model. St
 
 There is no combined runner. Open and execute each notebook separately using the order in [README.md](README.md) or [the notebook guide](notebooks/data-pipeline/README.md).
 
-Stages 3 and 4.5 require an API key only when their OpenAI Batch API operations are rerun. Some API notebooks must be run once to submit jobs and again after remote processing completes.
+Stages 1.2, 3, and 4.5 require an API key only when their OpenAI Batch API operations are rerun. Some API notebooks must be run once to submit jobs and again after remote processing completes.

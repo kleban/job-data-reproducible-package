@@ -1,3 +1,7 @@
+# Repository-Preparation Audit Notes
+
+This file is a historical record of decisions made while assembling the package. It is not an execution guide and some quoted instructions describe superseded working arrangements. Replicators should use the root [README](README.md), [SETUP](SETUP.md), and component READMEs as the canonical documentation. Machine-specific source locations have been redacted.
+
 ## Initial project prompt
 
 > You are helping me prepare a research repository for Mendeley Data publication.
@@ -105,8 +109,8 @@
 ### 2026-03-22
 
 **[Setup]**
-> SOURCE: G:\worldbank-reproducible-package
-> OUTPUT: G:\mendely-paper-repository
+> SOURCE: [historical working repository; redacted]
+> OUTPUT: [replication repository; machine-specific location redacted]
 
 **[Structure]**
 > manuscript/ files — include in OUTPUT (yes)
@@ -116,7 +120,7 @@
 **[Global — use in all files going forward]**
 > Test notebook renamed from 00_test_environment.ipynb to before_start_test_environment.ipynb
 > stage_2_1_skills_extration_v2.ipynb renamed to stage_2_1_skills_extration.ipynb
-> Paper title: Labor Demand for Digital Skills during Wartime: Evidence from Russia's Invasion of Ukraine
+> Paper title: Labor Demand for Digital Skills in Post-2022 Ukraine: Evidence from Online Job Vacancy Data
 > Authors: Yurii Kleban, Britta Rude
 > Year: 2026
 > Journal/DOI: still pending — leave as [Journal] and [DOI] placeholders
@@ -132,5 +136,5 @@
 > stage_01_5_interim_translate_skills.ipynb — already completed, copy all 5 data files to stage_01_2/, add README_data.md noting it does not need to be rerun. Translation used OpenAI Batch API gpt-4.1-mini to produce skills_ru.csv for Stage 2.
 
 **[Stage 0]**
-> .env — copy to OUTPUT root, replace real API key with placeholder, update paths to match new folder names, add inline comments
+> .env — later superseded: the publishable template is `notebooks/data-pipeline/.env.example`; the local ignored file is `notebooks/data-pipeline/.env`
 > Structure Ganerator.ipynb — skip, folder generation utility, not part of the pipeline

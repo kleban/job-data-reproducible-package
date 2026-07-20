@@ -1,14 +1,14 @@
 # Paper Analytics — Progress
 
-Status: **paused; work will continue later**
+Status: **structure and documentation aligned; data completion and runtime validation remain pending**
 
-This file records the preparation status of the datasets, Python notebooks, and forthcoming R project used to reproduce the analyses reported in the paper.
+This file records the preparation status of the datasets, Python notebooks, and integrated R project used to reproduce the analyses reported in the paper.
 
 ## Agreed repository structure
 
 - `data/paper-analytics/` — interim, analysis-ready, and external reference data
 - `notebooks/paper-analytics/` — Python data-preparation and analysis notebooks
-- `code/paper-analytics/` — forthcoming R project and R analysis scripts
+- `code/paper-analytics/` — integrated self-contained R project and R analysis scripts
 - `output/paper-analytics/` — generated tables and figures
 
 ## Completed work
@@ -61,6 +61,28 @@ The following files must be provided before notebook 02 can be run completely:
 - `data/paper-analytics/reference/esco/greenSkillsCollection_en.csv`
 - `data/paper-analytics/reference/acled/europe-central-asia_full_data_up_to-2025-07-25.xlsx`
 
+The same ACLED source is also required by the integrated R project. The canonical downloaded copy will be stored under `data/paper-analytics/reference/acled/`; a byte-identical copy with the same SHA-256 checksum must be placed in the R project's `data/` directory.
+
+## Integrated R project
+
+The prepared R reproducibility project has been moved to:
+
+- `code/paper-analytics/reproducibility_package/`
+
+The `.Rproj`, `.Rprofile`, `renv.lock`, `renv/`, `DESCRIPTION`, R scripts, bundled analysis datasets, and Excel inputs were retained together. Machine-specific absolute paths were replaced with paths resolved from the R project root. No analytical specifications were changed.
+
+Bundled inputs currently present in the R project:
+
+- `data/final_weekly.parquet`
+- `data/final_monthly.parquet`
+- `data/final_dataset_occ_digital_month.parquet`
+- `data/2025_10_14_electricity_outages.xlsx`
+- `data/2025_10_14_elektro_boiovi_dii_ukraina_minenergo.xlsx`
+
+Pending R input:
+
+- `data/europe-central-asia_full_data_up_to-2025-07-25.xlsx`
+
 The source, version, access date, redistribution permission, and public-availability status of each reference dataset must be documented before publication.
 
 ## Work remaining when this stage resumes
@@ -70,7 +92,7 @@ The source, version, access date, redistribution permission, and public-availabi
 3. Check analytical definitions, filters, dates, labels, and output filenames against the manuscript.
 4. Run notebook 01 in a suitably provisioned environment and validate its row counts, date coverage, schemas, and unique identifiers.
 5. Run notebook 02 after its inputs are available and compare all retained outputs with the manuscript.
-6. Add the R project and connect its input paths to the analysis-ready Parquet datasets.
-7. Document the final execution order, software environment, input provenance, and table/figure mapping in the main replication README.
+6. Confirm the provenance and analytical equivalence of the bundled R Parquet inputs and the planned Python weekly/monthly outputs before replacing or deduplicating either set.
+7. Update the final execution inventory, table/figure mapping, and availability statements after runtime validation and manuscript comparison.
 
 This stage is **not complete** and should not yet be treated as publication-ready.

@@ -17,9 +17,9 @@ Status: authoritative requirements supplied by the journal; compliance is not ye
 
 #### 1.1 Title and overview
 
-- [ ] State the paper title.
-- [ ] List the authors' names.
-- [ ] Provide a brief overview of the replication package.
+- [x] State the paper title.
+- [x] List the authors' names.
+- [x] Provide a brief overview of the replication package.
 
 #### 1.2 Data information
 
@@ -75,7 +75,7 @@ Status: authoritative requirements supplied by the journal; compliance is not ye
 - [x] Python assets reorganized under `code/data-pipeline/`, `notebooks/data-pipeline/`, and `data/data-pipeline/`.
 - [x] Root, setup, code, notebook, and data documentation updated for the notebook-driven Python workflow.
 - [x] Publishable `.env.example` added and local API credentials replaced with placeholders.
-- [ ] R paper-analytics structure and files pending a later stage.
+- [x] R paper-analytics project integrated under `code/paper-analytics/reproducibility_package/`; runtime validation and the ACLED input remain pending.
 - [ ] Runtime notebook validation pending: the current environment uses Python 3.14 with NumPy binaries built for Python 3.13.
 
 - [x] Stage 0 — environment setup
@@ -83,7 +83,7 @@ Status: authoritative requirements supplied by the journal; compliance is not ye
   - [x] SETUP.md created
   - [x] Structure Ganerator.ipynb — skipped (folder generation utility, not part of pipeline)
   - [x] .env — placeholders applied
-- [ ] Stage 1 — load & assemble raw job vacancy data
+- [x] Stage 1 — load & assemble raw job vacancy data (repository preparation complete; full restricted input not published)
   - [x] stage_1_read_initial_data_fast.ipynb — markdown descriptions added, README updated
   - [x] stage_1_0_1_adding_lost_data_2023-2025.ipynb — skipped
   - [x] stage_1_0_2_adding_lost_data_2024_sep-dec.ipynb — skipped
@@ -95,13 +95,13 @@ Status: authoritative requirements supplied by the journal; compliance is not ye
   - [x] stage1.py — docstrings added → code/data-pipeline/stage1.py
   - [x] data/data-pipeline/input/ua-2024-01-01.json — synthetic, 100 rows
   - [x] data/data-pipeline/stage_01/ — README_data.md added
-  - [ ] data/data-pipeline/stage_01_2/ — pending
-- [ ] Stage 2 — skills extraction
+  - [x] data/data-pipeline/stage_01_2/ — precomputed translation assets and data description included
+- [x] Stage 2 — skills extraction
   - [x] stage_2_1_skills_extration.ipynb — descriptions added
   - [x] stage_2_2_add_romote_jobs.ipynb — descriptions added
   - [x] stage2_v2.py — docstrings added → code/data-pipeline/stage2.py
   - [x] data/data-pipeline/stage_02/ — README_data.md added
-- [ ] Stage 3 — LLM-based job classification (Batch API)
+- [x] Stage 3 — LLM-based job classification (Batch API)
   - [x] stage_3_1_classification_create_input_files.ipynb — descriptions added, stage2_v2→stage2 fixed
   - [x] stage_3_2_classification_check_jobs.ipynb — descriptions added, stage2_v2→stage2 fixed
   - [x] stage_3_3_classification_extract_results.ipynb — descriptions added, stage2_v2→stage2 fixed
@@ -111,21 +111,21 @@ Status: authoritative requirements supplied by the journal; compliance is not ye
   - [x] stage_3_7_classification_missed_extract_results.ipynb — descriptions added
   - [x] stage3.py — docstrings added → code/data-pipeline/stage3.py
   - [x] data/data-pipeline/stage_03/ — README_data.md added, all subfolders created, classify_schema.json and classification_prompt.txt copied
-- [ ] Stage 4 — ESCO skills mapping + region enrichment
+- [x] Stage 4 — ESCO skills mapping + region enrichment
   - [x] stage_4_esco_skills_extraction.ipynb — upgraded with the cleaned v5 matching algorithm, deterministic ESCO-code fallback, full-file processing, and Pickle output compatible with Stage 5
   - [x] stage_4_5_region_enrichment.ipynb — annotated, skip warning added, copyright footer
   - [x] stage4.py — docstrings added, manual_data_correction() shortened with samples
   - [x] data/data-pipeline/stage_04/ — ESCO CSVs copied, output schema documented, README_data.md added
   - [x] data/data-pipeline/stage_04_5/ — reference files + region_db.pkl + sample_1_100.jsonl copied, README_data.md added
-- [ ] Stage 5 — final aggregation (daily → monthly)
+- [x] Stage 5 — final aggregation (daily → monthly)
   - [x] Unused `stage5.py` removed; Stage 5 notebooks do not import it and its helpers duplicate `stage3.py`.
   - [x] stage_5_1_rejoin_daily_unique_files.ipynb — daily unique output changed to Parquet; tracker and statistics use Parquet paths
   - [x] stage_5_2_to_monthly_unique.ipynb — finalized: automatic month discovery, daily Parquet validation, robust schema alignment, and monthly Parquet/JSON outputs
   - [x] stage_5_3_rejoin_full_files.ipynb — finalized as one full-data rejoin pipeline; reads Stage 4 Pickle and writes daily full Parquet/JSON without dropping unresolved rows
   - [x] stage_5_4_to_monthly_full.ipynb — finalized with automatic month discovery, streaming Zstandard Parquet aggregation, safe temporary output, and Ukraine-country JSON
-  - [ ] data/data-pipeline/stage_05/ — pending
-- [ ] Shared modules
-  - [ ] general.py — docstrings added
-  - [ ] stats.py — docstrings added
-- [x] README.md — initial version created (citation placeholder pending)
+  - [x] data/data-pipeline/stage_05/ — directory structure, demonstration outputs, trackers, and data description included
+- [x] Shared modules
+  - [x] general.py — configuration, path validation, and directory helpers documented
+  - [x] stats.py — not retained because no approved notebook requires it
+- [x] README.md — package-wide guide rewritten; DOI and final citation remain pending release
 - [x] `manuscript/JobVacancy_Demand_DigitalSkills.pdf` updated to the July 19, 2026 manuscript (81 pages).

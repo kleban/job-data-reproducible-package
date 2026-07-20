@@ -1,50 +1,33 @@
-# data/data-pipeline/stage_01_2 — ESCO Skills Translation (English → Russian)
+# Stage 1.2 Data: Russian ESCO Skill Translation
 
-## What this stage does
+## Purpose
 
-The original ESCO taxonomy provides skill labels in many European languages
-(English, German, French, Polish, Czech, etc.) but **does not include Russian**.
-Since a significant share of Ukrainian job vacancies are written in Russian,
-missing Russian-language skill labels would result in poor skill extraction
-quality for those records.
+ESCO does not provide the Russian-language skill collection required for extracting skills from Russian vacancy descriptions. Stage 1.2 translates the English ESCO skill table into Russian through the OpenAI Batch API.
 
-This stage uses the **OpenAI Batch API (gpt-4.1-mini)** to translate all
-~13,900 ESCO skill entries from English to Russian, producing `skills_ru.csv`
-which is consumed by the Stage 2 skill extraction pipeline.
+## Producer and handoff
 
----
+- Producer: `notebooks/data-pipeline/stage_01_5_interim_translate_skills.ipynb`
+- Model documented by the workflow: `gpt-4.1-mini`
+- Source: English ESCO skill collection
+- Main output: `skills_ru.csv`
+- Next consumer: Stage 2 multilingual skill retrieval
 
-## ⚠ You do NOT need to rerun this stage
+## Normal replication action
 
-The translation has already been completed. All output files are included
-in this repository. Simply proceed to Stage 2 — the `skills_ru.csv` file
-will be picked up automatically.
-
-**Only rerun this notebook if you want to improve or redo the translation.**
-Rerunning will consume OpenAI API credits and may take up to 24 hours
-(OpenAI Batch API processing time).
-
----
+Do not rerun this stage for the standard replication workflow. The completed Russian translation and supporting Batch API artifacts are included. Rerunning requires an OpenAI API key, can incur costs, and may return text that is not byte-identical to the archived translation.
 
 ## Files
 
-### Stage outputs
+| File | Role |
+|---|---|
+| `skills_en.csv` | English ESCO skill records used as translation input |
+| `skills_ru.csv` | Precomputed Russian translations used by Stage 2 |
+| `translate_schema.json` | Structured output schema for translated records |
+| `batch_translate_en_ru.jsonl` | Batch API request file |
+| `batch_output.jsonl` | Archived raw Batch API response |
 
-| File | Description |
-|------|-------------|
-| `skills_en.csv` | Source ESCO skills in English (~13,900 rows). Input to the translation batch. Columns: `conceptUri`, `preferredLabel`, `altLabels`, `description` |
-| `skills_ru.csv` | **Output — Russian translations** of all ESCO skills. Used by Stage 2 for Russian-language job records. Same columns as `skills_en.csv` |
-| `translate_schema.json` | OpenAI function-calling schema that enforces the structure of each translated record |
+The main tables preserve ESCO concept identifiers and fields such as preferred label, alternative labels, and description.
 
-### Supporting files
+## Configuration
 
-| File | Description |
-|------|-------------|
-| `batch_translate_en_ru.jsonl` | Batch API input file — one JSON line per skill, each containing the English text and translation instructions |
-| `batch_output.jsonl` | Raw Batch API response from OpenAI — one JSON line per skill with the translated fields |
-
----
-
-## Note on paths
-
-The notebook (`stage_01_5_interim_translate_skills.ipynb`) reads every input and output path from `general.Config`. The corresponding Stage 1.2 variables are documented in `notebooks/data-pipeline/.env.example`; no notebook path edits are required before rerunning it.
+The notebook obtains paths from `general.Config` and `notebooks/data-pipeline/.env`. No machine-specific path edits are required. A live API credential belongs only in the ignored local `.env` file.
