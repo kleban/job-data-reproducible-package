@@ -53,12 +53,17 @@ Decisions and changes:
 - the notebook was not executed;
 - all 202 retained code cells passed static Python-syntax validation and contain no stored outputs or absolute paths.
 
-## External reference files still required
+## External reference files
 
-The following files must be provided before notebook 02 can be run completely:
+Included and structurally validated on 2026-07-21:
 
 - `data/paper-analytics/reference/esco/digitalSkillsCollection_en.csv`
 - `data/paper-analytics/reference/esco/greenSkillsCollection_en.csv`
+
+Their row counts, schemas, sizes, and SHA-256 checksums are documented in `data/paper-analytics/reference/esco/README.md`. Exact ESCO release, source URL, access date, and license metadata still require confirmation.
+
+Still required before notebook 02 can run completely:
+
 - `data/paper-analytics/reference/acled/europe-central-asia_full_data_up_to-2025-07-25.xlsx`
 
 The same ACLED source is also required by the integrated R project. The canonical downloaded copy will be stored under `data/paper-analytics/reference/acled/`; a byte-identical copy with the same SHA-256 checksum must be placed in the R project's `data/` directory.
@@ -87,7 +92,7 @@ The source, version, access date, redistribution permission, and public-availabi
 
 ## Work remaining when this stage resumes
 
-1. Add and document the ESCO and ACLED reference files.
+1. Complete the ESCO source/license metadata and add/document the ACLED reference file.
 2. Review notebook 02 section by section against the manuscript and retain only calculations that reproduce reported tables, figures, or required supplementary results.
 3. Check analytical definitions, filters, dates, labels, and output filenames against the manuscript.
 4. Run notebook 01 in a suitably provisioned environment and validate its row counts, date coverage, schemas, and unique identifiers.

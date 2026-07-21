@@ -7,7 +7,7 @@ These notebooks bridge the complete Stage 5 monthly vacancy data to descriptive 
 | Order | Notebook | Purpose | Status |
 |---:|---|---|---|
 | 1 | `01_build_analysis_ready_vacancy_data.ipynb` | Collapse complete monthly full Parquet files to one row per vacancy ID | Prepared and statically validated; not executed on full data |
-| 2 | `02_analyze_vacancy_skills_and_occupation_composition.ipynb` | Produce vacancy, skill, occupation, remote-work, and conflict-related descriptive outputs; write weekly/monthly datasets | Prepared and statically validated; missing reference inputs and not executed |
+| 2 | `02_analyze_vacancy_skills_and_occupation_composition.ipynb` | Produce vacancy, skill, occupation, remote-work, and conflict-related descriptive outputs; write weekly/monthly datasets | Prepared and statically validated; ESCO inputs included, ACLED input missing, and not executed |
 
 Both notebooks locate the repository root automatically. They do not use the pipeline `.env` and contain no machine-specific paths.
 

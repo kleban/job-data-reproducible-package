@@ -31,12 +31,12 @@ Completed:
 - Python data-pipeline structure, configuration, notebooks, and synthetic demonstration files;
 - reviewer-answer notebooks, computed validation data, and manuscript-ready Tables A2–A6;
 - integration of the self-contained R project and replacement of machine-specific R data paths;
+- inclusion and integrity verification of the ESCO digital- and green-skills collection CSV files;
 - preparation of the two Python paper-analytics notebooks.
 
 Still required:
 
 - add `europe-central-asia_full_data_up_to-2025-07-25.xlsx` and document its redistribution status;
-- add the ESCO digital- and green-skills collection files required by the Python paper-analytics notebook;
 - confirm the provenance and equivalence of the Python-generated weekly/monthly datasets and the bundled R analysis datasets;
 - execute and validate the Python paper-analytics notebooks on the complete Stage 5 data;
 - restore the R environment and execute `run_all.R` on a machine with R 4.3.0;
@@ -52,7 +52,7 @@ Detailed internal status is recorded in [progress.md](progress.md), [progress-da
 | Jooble daily online vacancy snapshots | Primary vacancy source for Stages 1–5 | No | Restricted proprietary vacancy text supplied to the authors. Researchers must request access from the provider. A 100-row synthetic structural example is included. |
 | Synthetic vacancy file `ua-2024-01-01.json` | Demonstrates the Python pipeline schema | Yes | Synthetic data only; it cannot reproduce the paper’s substantive estimates. |
 | ESCO v1.2.0 occupation, skill, and relation tables | Occupation and skill taxonomy | Yes, for the main pipeline | Public ESCO reference exports used by Stages 1.2, 2, and 4 are included. Source/version metadata are documented in the stage READMEs. |
-| ESCO digital- and green-skills collections | Digital/green skill classification in Python paper analytics | Not yet | Expected under `data/paper-analytics/reference/esco/`. |
+| ESCO digital- and green-skills collections | Digital/green skill classification in Python paper analytics | Yes | Included unchanged from the supplied CSV files under `data/paper-analytics/reference/esco/`; checksums and structures are documented there. Exact ESCO release/source metadata still require confirmation. |
 | OpenAI Batch API outputs | Russian skill translation, occupation classification, and region standardisation | Partly | Prompts, schemas, representative inputs, and permitted precomputed outputs are included. Rerunning API steps can incur costs and may not produce byte-identical results. |
 | Classification-validation population and manual codes | Reviewer-answer Tables A2–A5 | Yes | Non-disclosive computed data and completed manual codes are included. Original daily records are restricted. |
 | Threshold accuracy counts | Reviewer-answer Table A6 | Yes | Aggregate correct/compared counts are included; the historical vacancy-level predictions for threshold 0.7 are unavailable. |
