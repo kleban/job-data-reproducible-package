@@ -59,14 +59,11 @@ Included and structurally validated on 2026-07-21:
 
 - `data/paper-analytics/reference/esco/digitalSkillsCollection_en.csv`
 - `data/paper-analytics/reference/esco/greenSkillsCollection_en.csv`
-
-Their row counts, schemas, sizes, and SHA-256 checksums are documented in `data/paper-analytics/reference/esco/README.md`. Exact ESCO release, source URL, access date, and license metadata still require confirmation.
-
-Still required before notebook 02 can run completely:
-
 - `data/paper-analytics/reference/acled/europe-central-asia_full_data_up_to-2025-07-25.xlsx`
 
-The same ACLED source is also required by the integrated R project. The canonical downloaded copy will be stored under `data/paper-analytics/reference/acled/`; a byte-identical copy with the same SHA-256 checksum must be placed in the R project's `data/` directory.
+The ESCO row counts, schemas, sizes, and SHA-256 checksums are documented in `data/paper-analytics/reference/esco/README.md`. Exact ESCO release, source URL, access date, and license metadata still require confirmation.
+
+The canonical ACLED workbook and its byte-identical R-project copy both have SHA-256 `875C78457FCD1B53CA6E4CB3DFA7D78E4FBAE16E6DEBE99964A535203FE50317`. Original access, coverage, and redistribution metadata remain to be confirmed.
 
 ## Integrated R project
 
@@ -83,20 +80,17 @@ Bundled inputs currently present in the R project:
 - `data/final_dataset_occ_digital_month.parquet`
 - `data/2025_10_14_electricity_outages.xlsx`
 - `data/2025_10_14_elektro_boiovi_dii_ukraina_minenergo.xlsx`
-
-Pending R input:
-
 - `data/europe-central-asia_full_data_up_to-2025-07-25.xlsx`
 
 The source, version, access date, redistribution permission, and public-availability status of each reference dataset must be documented before publication.
 
 ## Work remaining when this stage resumes
 
-1. Complete the ESCO source/license metadata and add/document the ACLED reference file.
+1. Complete the ESCO and ACLED source, access-date, coverage, license, and redistribution metadata.
 2. Review notebook 02 section by section against the manuscript and retain only calculations that reproduce reported tables, figures, or required supplementary results.
 3. Check analytical definitions, filters, dates, labels, and output filenames against the manuscript.
 4. Run notebook 01 in a suitably provisioned environment and validate its row counts, date coverage, schemas, and unique identifiers.
-5. Run notebook 02 after its inputs are available and compare all retained outputs with the manuscript.
+5. Run notebook 02 after the complete Stage 5-derived input is available and compare all retained outputs with the manuscript.
 6. Confirm the provenance and analytical equivalence of the bundled R Parquet inputs and the planned Python weekly/monthly outputs before replacing or deduplicating either set.
 7. Update the final execution inventory, table/figure mapping, and availability statements after runtime validation and manuscript comparison.
 

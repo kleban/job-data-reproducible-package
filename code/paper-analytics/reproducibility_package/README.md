@@ -79,8 +79,7 @@ Accept any prompts to activate the renv environment.
 
 ### 4. Check the input files
 
-The five bundled inputs are stored in `data/`. Add the pending ACLED workbook to
-that same directory. See [the data description](data/README_data.md) for roles,
+All six documented inputs are stored in `data/`. See [the data description](data/README_data.md) for roles,
 provenance notes, and availability status.
 
 ### 5. Run the full pipeline
@@ -271,7 +270,8 @@ which is convenient for debugging or partial re-runs.
 ## Reproducibility checklist before sharing
 
 - [x] Five bundled Parquet/energy input files are present in `data/`
-- [ ] ACLED workbook added to `data/` and its redistribution status documented
+- [x] ACLED workbook added to `data/` and checksum-matched to the canonical copy
+- [ ] ACLED redistribution status and original access metadata documented
 - [ ] `renv::restore()` runs without errors
 - [ ] `run_all.R` completes end-to-end
 - [x] Temporary environment-setup scripts and logs are absent from the published project

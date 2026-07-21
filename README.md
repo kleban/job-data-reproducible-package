@@ -18,7 +18,7 @@ The package has three connected components:
 |---|---|---|---|
 | `data-pipeline` | Python/Jupyter | Converts daily vacancy snapshots into cleaned, enriched daily and monthly files | Executable with the included synthetic demonstration input; the restricted full Jooble source data are not published |
 | `data-pipeline-answers` | Python/Jupyter | Reproduces classification-validation and threshold-selection results requested by reviewers | Public notebooks 02–04 and their computed inputs have been validated |
-| `paper-analytics` | Python and R | Builds analysis datasets and reproduces the statistical tables and figures reported in the paper | R analysis-ready datasets are included; the ACLED workbook and full runtime validation remain pending |
+| `paper-analytics` | Python and R | Builds analysis datasets and reproduces the statistical tables and figures reported in the paper | Required ESCO and ACLED references and R analysis-ready datasets are included; full runtime validation remains pending |
 
 There is no single command that runs the entire repository. The Python workflows consist of ordered notebooks. The R analysis has its own project, locked `renv` environment, and `run_all.R` entry point.
 
@@ -36,7 +36,7 @@ Completed:
 
 Still required:
 
-- add `europe-central-asia_full_data_up_to-2025-07-25.xlsx` and document its redistribution status;
+- confirm and document the redistribution conditions for the included ACLED workbook;
 - confirm the provenance and equivalence of the Python-generated weekly/monthly datasets and the bundled R analysis datasets;
 - execute and validate the Python paper-analytics notebooks on the complete Stage 5 data;
 - restore the R environment and execute `run_all.R` on a machine with R 4.3.0;
@@ -59,7 +59,7 @@ Detailed internal status is recorded in [progress.md](progress.md), [progress-da
 | Bundled weekly, monthly, and occupation-by-month Parquet datasets | Direct inputs to the R paper analysis | Yes | Stored in the self-contained R project under `code/paper-analytics/reproducibility_package/data/`. Their relationship to the Python paper-analytics outputs must be confirmed before final release. |
 | Electricity outage workbook | Robustness controls in the R analysis | Yes | Stored with the R project. Source and availability are documented in its data README. |
 | Ministry of Energy combat-disconnection workbook | Robustness controls in the R analysis | Yes | Stored with the R project. Source and availability are documented in its data README. |
-| ACLED Europe/Central Asia workbook | Conflict events and fatalities | Not yet | Canonical copy expected under `data/paper-analytics/reference/acled/`; the R project requires a byte-identical checksum-verified copy. Redistribution conditions must be confirmed before publication. |
+| ACLED Europe/Central Asia workbook | Conflict events and fatalities | Yes | Canonical Python copy and a byte-identical R-project copy are included with SHA-256 `875C78457FCD1B53CA6E4CB3DFA7D78E4FBAE16E6DEBE99964A535203FE50317`. Redistribution conditions must still be confirmed. |
 
 See the component data guides for file-level schemas and restrictions:
 
@@ -115,7 +115,7 @@ renv::restore()
 source("run_all.R")
 ```
 
-Alternatively, open `ukraine_skills.Rproj` in RStudio and run `run_all.R`. The full run currently requires the missing ACLED workbook.
+Alternatively, open `ukraine_skills.Rproj` in RStudio and run `run_all.R`. All documented R input files are now present, but the full run has not yet been validated in this repository.
 
 ## Reproduction routes
 
@@ -155,7 +155,7 @@ These notebooks reproduce manuscript Tables A2–A6. The retained public noteboo
 
 1. Add the complete Stage 5 monthly full Parquet files under `data/data-pipeline/stage_05/parquet_monthly_full/`.
 2. Run `notebooks/paper-analytics/01_build_analysis_ready_vacancy_data.ipynb`.
-3. Add the required ESCO and ACLED reference files.
+3. Verify that the included ESCO and ACLED reference files match the checksums in their data READMEs.
 4. Run `02_analyze_vacancy_skills_and_occupation_composition.ipynb`.
 
 See [the Python paper-analytics guide](notebooks/paper-analytics/README.md). These notebooks are memory intensive and have not yet been executed in the public package environment.
@@ -164,7 +164,7 @@ See [the Python paper-analytics guide](notebooks/paper-analytics/README.md). The
 
 The R project uses its bundled analysis-ready Parquet files, so it does not require rerunning the restricted vacancy pipeline.
 
-1. Add the canonical ACLED workbook under `data/paper-analytics/reference/acled/`, copy it byte-for-byte to `code/paper-analytics/reproducibility_package/data/`, and verify matching SHA-256 checksums.
+1. Verify that both included ACLED copies have SHA-256 `875C78457FCD1B53CA6E4CB3DFA7D78E4FBAE16E6DEBE99964A535203FE50317`.
 2. Open `code/paper-analytics/reproducibility_package/ukraine_skills.Rproj`.
 3. Run `renv::restore()` once.
 4. Run `run_all.R`.

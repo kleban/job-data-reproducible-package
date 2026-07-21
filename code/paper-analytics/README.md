@@ -27,7 +27,7 @@ The R environment is independent of the repository-level Python environment. Do 
    renv::restore()
    ```
 
-4. Add a byte-identical copy of the pending ACLED workbook to `reproducibility_package/data/`; the canonical copy belongs under the repository-level `data/paper-analytics/reference/acled/` directory.
+4. Verify that the included ACLED workbook matches the canonical repository copy using the documented SHA-256 checksum.
 5. Run:
 
    ```r
@@ -44,15 +44,13 @@ The project uses paths derived from its project root. Machine-specific `C:/Users
 - `2025_10_14_electricity_outages.xlsx`
 - `2025_10_14_elektro_boiovi_dii_ukraina_minenergo.xlsx`
 
-## Pending input
+## Included ACLED input
 
 ```text
 europe-central-asia_full_data_up_to-2025-07-25.xlsx
 ```
 
-Without this workbook, `R/00_acled_data_prep.R` and the complete `run_all.R` sequence cannot finish.
-
-When the workbook is added, verify that its SHA-256 checksum matches the canonical Python-reference copy documented in `data/paper-analytics/reference/acled/README.md`.
+The R copy and canonical Python-reference copy both have SHA-256 `875C78457FCD1B53CA6E4CB3DFA7D78E4FBAE16E6DEBE99964A535203FE50317`.
 
 ## Documentation and validation status
 

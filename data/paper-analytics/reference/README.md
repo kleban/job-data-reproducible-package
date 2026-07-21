@@ -5,7 +5,7 @@ This directory is reserved for external classification and conflict-data inputs 
 | Subdirectory | Source family | Status |
 |---|---|---|
 | `esco/` | ESCO digital- and green-skills collections | Included; source release/license metadata still require confirmation |
-| `acled/` | ACLED Europe/Central Asia conflict-event workbook | Not yet added |
+| `acled/` | ACLED Europe/Central Asia conflict-event workbook | Included and checksum-verified; redistribution terms still require confirmation |
 
 Before publication, record for every reference file:
 

@@ -9,7 +9,7 @@ This directory is the data workspace for the Python paper-analytics notebooks. I
 | `interim/` | Year-specific vacancy-ID collapses created by notebook 01 | Not generated in the public workspace |
 | `analysis-ready/` | Final vacancy-level, weekly, and monthly Python analysis datasets | Not generated in the public workspace |
 | `reference/esco/` | ESCO digital- and green-skills collections | Both required CSV files included and integrity-checked |
-| `reference/acled/` | ACLED conflict-event workbook | Required file not yet added |
+| `reference/acled/` | ACLED conflict-event workbook | Included and integrity-checked; redistribution terms still require confirmation |
 
 ## Data flow
 
